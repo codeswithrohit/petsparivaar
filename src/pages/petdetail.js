@@ -151,7 +151,7 @@ console.log(fetchedData)
   // Filter fetchedData based on distances less than 15 km
   const filteredData = fetchedData.filter(item => parseFloat(item.distance) < parseFloat(nearestLocation));
 
-  console.log(fetchedData);
+  console.log("fetchedData",fetchedData);
 
 
 
