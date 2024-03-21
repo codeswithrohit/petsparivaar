@@ -1,10 +1,4 @@
 import Head from "next/head";
-import About from "../components/About";
-import HomePage from "./HomePage";
-import Services from "./Services";
-import Notify from "../components/Notify";
-import Testimonial from "./Testimonial";
-import LandinPage from "./LandingPage";
 
 export default function Home() {
   return (
@@ -15,7 +9,6 @@ export default function Home() {
         <link rel="icon" href="/pro.ico" />
       </Head>
       <div className="min-h-screen" >
-      <HomePage />
       </div>
     </div>
   );
