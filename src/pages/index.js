@@ -16,6 +16,166 @@ export default function Home() {
       </Head>
       <div className="min-h-screen" >
       <HomePage />
+      <div class="max-w-7xl mb-4 mx-auto font-[sans-serif] text-[#333]">
+      <div class="text-center max-w-2xl mx-auto">
+        <h2 class="sm:text-3xl text-2xl font-extrabold">Comprehensive Care for every Dog and Cat</h2>
+      </div>
+      <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-12 mt-16 max-md:max-w-lg mx-auto">
+        <div class="text-left border rounded-md p-6">
+         <img src="https://dm6g3jbka53hp.cloudfront.net/static-images/boarding-landing-page_services-section-boarding-icon.svg" className="w-12 h-12 rounded-xl" />
+          <h3 class="text-xl font-semibold mb-2">Pet Boarding</h3>
+          <p class="text-gray-500 text-sm">Ensuring unparalleled comfort and care for your beloved companions at our Pet Retreat Center, where they find a cozy haven designed just for them, complete with state-of-the-art amenities to ensure their well-being.</p>
+         
+        </div>
+        <div class="text-left border rounded-md p-6">
+        <img src="https://dm6g3jbka53hp.cloudfront.net/static-images/boarding-landing-page_services-section-pet-hosting-icon.svg" className="w-12 h-12 rounded-xl" />
+          <h3 class="text-xl font-semibold mb-2">Pet Care</h3>
+          <p class="text-gray-500 text-sm">Delivering top-tier pet care services at our dedicated Pet Care Center, where your furry friends receive personalized attention in a warm and nurturing environment, ensuring their happiness and health every step of the way.</p>
+         
+        </div>
+        <div class="text-left border rounded-md p-6">
+        <img src="https://dm6g3jbka53hp.cloudfront.net/static-images/boarding-landing-page_services-section-dogy-day-care-icon.svg" className="w-12 h-12 rounded-xl" />
+          <h3 class="text-xl font-semibold mb-2">Pet Sitting</h3>
+          <p class="text-gray-500 text-sm">Offering professional pet sitting services at our trusted Pet Sitting Haven, where your cherished pets are pampered with love and attention in a safe and familiar setting, providing you with peace of mind while you're away.</p>
+         
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="max-w-6xl mb-4 mx-auto text-[#333] font-[sans-serif]">
+      
+      <div class="mt-14 bg-white lg:p-10 p-6 rounded-md">
+        <div class="grid md:grid-cols-2 items-center gap-16">
+          <div>
+            <h3 class="text-2xl font-extrabold mb-4">Book top-notch pet care
+anytime, anywhere</h3>
+            <ul class="space-y-4 mt-8">
+              <li class="flex items-center text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" class="mr-4 bg-blue-500 fill-white rounded-full p-[3px]" viewBox="0 0 24 24">
+                  <path d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z" data-original="#000000" />
+                </svg>
+                All sitters undergo thorough screening & background check
+              </li>
+              <li class="flex items-center text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" class="mr-4 bg-blue-500 fill-white rounded-full p-[3px]" viewBox="0 0 24 24">
+                  <path d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z" data-original="#000000" />
+                </svg>
+                Every sitter provides a comprehensive profile and personal details
+              </li>
+              <li class="flex items-center text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" class="mr-4 bg-blue-500 fill-white rounded-full p-[3px]" viewBox="0 0 24 24">
+                  <path d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z" data-original="#000000" />
+                </svg>
+                Every sitter is accredited and verified by our team of professionals
+              </li>
+             
+            </ul>
+          </div>
+          <img src="https://dm6g3jbka53hp.cloudfront.net/static-images/boarding-landing-page__sitter__verification__pet-travel-v1.jpg" class="w-full object-contain rounded-md" />
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="my-4 px-12 font-[sans-serif] text-[#333]">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-2 items-center gap-8">
+                    <div class="space-y-6 bg-blue-50 rounded-md p-6 max-w-md max-md:mx-auto">
+                        <div class="flex sm:items-center max-sm:flex-col-reverse">
+                            <div class="mr-3">
+                                <h4 class="text-base font-extrabold">John Doe</h4>
+                                <p class="text-sm text-gray-400 mt-1">Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit.</p>
+                            </div>
+                            <img src='https://readymadeui.com/profile_2.webp' class="w-16 h-16 rounded-full max-sm:mb-2" />
+                        </div>
+                        <div class="flex sm:items-center max-sm:flex-col-reverse p-6 relative lg:left-12 bg-white shadow-[0_2px_20px_-4px_rgba(93,96,127,0.2)] rounded-md">
+                            <div class="mr-3">
+                                <h4 class="text-base font-extrabold">Mark Adair</h4>
+                                <p class="text-sm text-gray-400 mt-1">Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit.</p>
+                            </div>
+                            <img src='https://readymadeui.com/profile_3.webp' class="w-16 h-16 rounded-full max-sm:mb-2" />
+                        </div>
+                        <div class="flex sm:items-center max-sm:flex-col-reverse">
+                            <div class="mr-3">
+                                <h4 class="text-base font-extrabold">Simon Konecki</h4>
+                                <p class="text-sm text-gray-400 mt-1">Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit.</p>
+                            </div>
+                            <img src='https://readymadeui.com/profile_4.webp' class="w-16 h-16 rounded-full max-sm:mb-2" />
+                        </div>
+                    </div>
+                    <div>
+                        <h6 class="text-xl font-bold text-gray-200">Trusted by 120,000+ Pet Parents and Counting</h6>
+                        <h2 class="text-4xl font-extrabold mt-4">We are loyal with our customer</h2>
+                        <p class="text-sm text-gray-400 mt-4 leading-relaxed">Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit. Elit occaecat officia et laboris Lorem minim. Officia do aliqua adipisicing ullamco in.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white mb-4 px-12 font-[sans-serif]">
+  <h2 class="text-3xl font-extrabold text-indigo-700 mb-10">Frequently Asked Questions</h2>
+  <div class="space-y-8 max-w-4xl">
+    <div class="flex items-start">
+      <div class="flex-shrink-0">
+        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <div class="ml-4">
+        <h3 class="text-lg font-semibold text-[#333]">How can I create an account?</h3>
+        <p class="text-sm text-[#333] mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Sed do eiusmod tempor incididunt ut labore et dolore magna
+          aliqua.</p>
+      </div>
+    </div>
+    <div class="flex items-start">
+      <div class="flex-shrink-0">
+        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <div class="ml-4">
+        <h3 class="text-lg font-semibold text-[#333]">Is there a mobile app available?</h3>
+        <p class="text-sm text-[#333] mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua Sed do eiusmod tempor incididunt ut labore et dolore magna
+          aliqua.</p>
+      </div>
+    </div>
+    <div class="flex items-start">
+      <div class="flex-shrink-0">
+        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <div class="ml-4">
+        <h3 class="text-lg font-semibold text-[#333]">How can I reset my password?</h3>
+        <p class="text-sm text-[#333] mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
+    </div>
+    <div class="flex items-start">
+      <div class="flex-shrink-0">
+        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <div class="ml-4">
+        <h3 class="text-lg font-semibold text-[#333]">How do I update my account information?</h3>
+        <p class="text-sm text-[#333] mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Sed do eiusmod tempor incididunt ut labore et dolore magna
+          aliqua.</p>
+      </div>
+    </div>
+  </div>
+</div>
       </div>
     </div>
   );

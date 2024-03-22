@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { firebase } from "../Firebase/config";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-const Checkout = ({ cart, clearCart, subTotal }) => {
+import { useRouter } from 'next/router';
+const Checkout = ({ cart, clearCart, subTotal,removeFromCart }) => {
+  const router = useRouter();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -30,6 +31,7 @@ const Checkout = ({ cart, clearCart, subTotal }) => {
         fetchUserData(authUser.uid);
       } else {
         setUser(null);
+        router.push('/petkeepersignin');
         setUserData(null);
         setLoading(false);
       }
@@ -48,6 +50,9 @@ const Checkout = ({ cart, clearCart, subTotal }) => {
         const fetchedUserData = userDoc.data();
         setUserData(fetchedUserData);
         setPhoneNumber(fetchedUserData?.phoneNumber || "");
+      } else {
+        // Redirect to petkeepersignin if userData not found
+        router.push('/petkeepersignin');
       }
       setLoading(false);
     } catch (error) {
@@ -55,6 +60,7 @@ const Checkout = ({ cart, clearCart, subTotal }) => {
       setLoading(false);
     }
   };
+
 
   useEffect(() => {
     if (petName.length > 2 && petAge.length > 0 && medicalHistory.length > 3) {
@@ -256,30 +262,55 @@ const Checkout = ({ cart, clearCart, subTotal }) => {
             </div>
             <div class="md:col-span-2">
   {userData && userData.pets && userData.pets.length > 0 && (
-  <div className="overflow-x-auto">
-    <h2 className="text-lg font-semibold mb-4 mt-4">Pets Keeper Details</h2>
-    <div className="grid grid-cols-2 gap-4 mt-4">
-                <div>
-                  <p className="text-[#333] font-semibold">Product</p>
-                </div>
-                <div>
-                  <p className="text-[#333] font-semibold">Price</p>
-                </div>
-                {/* Iterate through items in the cart */}
-                {Object.values(cart).map((item, index) => (
-  <React.Fragment key={index}>
-    <div>
-      <p>{` Pet: ${item.type} , Service: ${item.service} , Pet keeper name: ${item.name} , Pet keeper location: ${item.location}`} </p>
-    </div>
-    <div>
-      <p>{`₹${item.price * item.qty}`}</p>
-    </div>
-  </React.Fragment>
-))}
+   <div className="overflow-x-auto">
+   <h2 className="text-lg font-semibold mb-4 mt-4">Pets Keeper Details</h2>
+   <table className="min-w-full divide-y divide-gray-200">
+     <thead className="bg-gray-50">
+       <tr>
+         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+           Pet keeper Info
+         </th>
+         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+           Check In - Check Out
+         </th>
+         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+           Price
+         </th>
+         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+           Actions
+         </th>
+       </tr>
+     </thead>
+     <tbody className="bg-white divide-y divide-gray-200">
+       {/* Iterate through items in the cart */}
+       {Object.values(cart).map((item, index) => (
+         <tr key={index}>
+           <td className="px-6 py-4 whitespace-nowrap">
+             <div className="text-xs text-gray-900">
+               {`${item.type}, ${item.service}, ${item.name}, ${item.location}`}
+             </div>
+           </td>
+           <td className="px-6 py-4 whitespace-nowrap">
+             <div className="text-sm text-gray-900">{`${item.PetDate}`}</div>
+           </td>
+           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{`₹${item.price * item.qty}`}</td>
+           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+             <button
+               onClick={() => {
+                 removeFromCart(1, item.price, item.name);
+               }}
+               className="py-2 px-4 rounded bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:bg-red-600"
+             >
+               Remove
+             </button>
+           </td>
+         </tr>
+       ))}
+     </tbody>
+   </table>
+ </div>
+ 
 
-
-              </div>
-  </div>
 )}
             </div>
           </div>

@@ -21,7 +21,6 @@ const PetDetail = ({bookNow}) => {
     serviceOption,
     Date,
     dogSize,
-    numberOfPets,
     location,
     nearestLocation,
   } = query;
@@ -68,52 +67,48 @@ const PetDetail = ({bookNow}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Replace 'yourCollectionName' with the actual collection name
         const collectionRef = firebase.firestore().collection('petkeeper').where("Verified", "==", "True");
-
-
-        // Get all documents from the collection
+  
         const querySnapshot = await collectionRef.get();
-
-        // Extract the data from the documents
         const data = querySnapshot.docs.map((doc) => {
           const userData = doc.data();
           return {
             ...userData,
-            distance: null, // Initially set distance as null
+            distance: null,
           };
         });
-
-        // Set the fetched data to the state
-        setFetchedData(data);
-
-        // Calculate distances for each item
+  
+        // Filter the fetched data based on petType and serviceOption
+        const filteredData = data.filter(item => {
+          return item.pets.some(pet => pet.type === petType && pet.service === serviceOption);
+        });
+  
+        setFetchedData(filteredData);
+  
         const distances = await Promise.all(
-          data.map(async (item) => {
+          filteredData.map(async (item) => {
             const formattedDistance = await calculateDistance(location, item.location);
             return formattedDistance;
           })
         );
-
-        // Update the distances in fetchedData
-        const updatedData = data.map((item, index) => ({
+  
+        const updatedData = filteredData.map((item, index) => ({
           ...item,
           distance: distances[index],
         }));
-
-        // Set the updated fetched data to the state
+  
         setFetchedData(updatedData);
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
         toast.error('Error fetching data from Firestore.');
-        setLoading(false); // Set loading to false in case of error
+        setLoading(false);
       }
     };
-
-    fetchData(); // Call the function to fetch data
-  }, [location]); // Re-run the effect when the location changes
-console.log(fetchedData)
+  
+    fetchData();
+  }, [location, petType, serviceOption]);
+   // Re-run the effect when the location changes
   // Function to calculate distance between two locations using Haversine formula
   const calculateDistance = (location1, location2) => {
     return new Promise((resolve, reject) => {
@@ -153,8 +148,7 @@ console.log(fetchedData)
 
   console.log("fetchedData",fetchedData);
 
-
-
+const PetDate = Date
  
 
 
@@ -170,7 +164,7 @@ console.log(fetchedData)
 
      
       <p className="font-serif text-xl font-bold text-blue-900">Search for this</p>
-      <div class="font-[sans-serif] w-max mx-auto bg-white border-2 border-[#333] flex rounded overflow-hidden grid grid-cols-1 md:grid-cols-6 md:w-auto">
+      <div class="font-[sans-serif] w-max mx-auto bg-white border-2 border-[#333] flex rounded overflow-hidden grid grid-cols-1 md:grid-cols-5 md:w-auto">
 
   <button 
     type="button"
@@ -193,11 +187,7 @@ console.log(fetchedData)
     Pet Size: {dogSize}
   </button>
   
-  <button 
-    type="button"
-    class="px-6 py-2.5 flex items-center text-[#333] text-xs md:text-xs tracking-wider font-semibold border-r-2 border-[#333] outline-none hover:text-white hover:bg-[#333] active:bg-[#111] transition-all">
-    No. of Pets: {numberOfPets}
-  </button>
+ 
   
   <button 
     type="button"
@@ -224,8 +214,12 @@ console.log(fetchedData)
       </div>
       
       ) : (
-        filteredData.map((item, index) => (
-          <div key={index} className="w-96 p-4 bg-gray-100 dark:bg-gray-800 border-gray-800 shadow-md hover:shodow-lg rounded-md">
+        <>
+        {/* Check if filteredData has items */}
+        {filteredData.length > 0 ? (
+          filteredData.map((item, index) => (
+            // Your result items rendering here
+            <div key={index} className="w-96 p-4 bg-gray-100 dark:bg-gray-800 border-gray-800 shadow-md hover:shodow-lg rounded-md">
           <div className="flex-none lg:flex">
            
             <div className="flex-auto lg:ml-3 justify-evenly py-2">
@@ -265,7 +259,7 @@ console.log(fetchedData)
   className="flex-no-shrink ml-2 bg-red-400 hover:bg-red-500 px-5 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-red-300 hover:border-red-500 text-white rounded-full transition ease-in duration-300" 
   type="button" 
   aria-label="like" 
-  onClick={() => bookNow(1, 1, pet.type, pet.price, pet.service, item.name, item.location,item.email)}>
+  onClick={() => bookNow(1, 1, pet.type, pet.price, pet.service, item.name, item.location,item.email,PetDate)}>
   Book Now
 </button>
 
@@ -280,7 +274,14 @@ console.log(fetchedData)
             </div>
           </div>
         </div>
-        ))
+          ))
+        ) : (
+          // No data message
+          <div className="flex justify-center items-center h-screen">
+            <p className="font-bold text-xl text-gray-500">No data found.</p>
+          </div>
+        )}
+      </>
       )}
       
     

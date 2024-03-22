@@ -86,16 +86,16 @@ function SideNavbar() {
     </Link>
              
 
-              <Link href='/Admin/Product' className={`flex  mb-2 justify-start items-center gap-4 pl-5 p-2 rounded-md group cursor-pointer m-auto ${
-      router.pathname === '/Admin/Product' ? 'bg-red-600 hover:bg-red-700' : 'hover:bg-gray-900'
+              <Link href='/Admin/AdminOrders' className={`flex  mb-2 justify-start items-center gap-4 pl-5 p-2 rounded-md group cursor-pointer m-auto ${
+      router.pathname === '/Admin/AdminOrders' ? 'bg-red-600 hover:bg-red-700' : 'hover:bg-gray-900'
     }`}>
       <IoIosAddCircle className={`text-2xl ${
-        router.pathname === '/Admin/Product' ? 'text-white' : 'text-gray-600 group-hover:text-white'
+        router.pathname === '/Admin/AdminOrders' ? 'text-white' : 'text-gray-600 group-hover:text-white'
       }`} />
       <h3 className={`text-base ${
-        router.pathname === '/Admin/Product' ? 'text-white' : 'text-gray-800 group-hover:text-white'
+        router.pathname === '/Admin/AdminOrders' ? 'text-white' : 'text-gray-800 group-hover:text-white'
       } font-semibold`}>
-         Store Product
+         Orders
       </h3>
     </Link>
              

@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/router";
-import { firebase } from "../../Firebase/config";
-import { isAbsoluteUrl } from "next/dist/shared/lib/utils";
+import * as XLSX from "xlsx";
 import Link from "next/link";
 const Dashboard = () => {
   const router = useRouter();
@@ -92,7 +89,12 @@ const Dashboard = () => {
 
 
 
-
+  const downloadOrders = () => {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(orders);
+    XLSX.utils.book_append_sheet(wb, ws, "Orders");
+    XLSX.writeFile(wb, "orders.xlsx");
+  };
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -150,140 +152,11 @@ const Dashboard = () => {
       setLoading(false);
     }
   };
-
-
-console.log("Total orders",orders)
-
-
-  const TotalOrder=orders.length
-
-  const [petkeeper, setPetkeeper] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userRef = firebase.firestore().collection("petkeeper");
-        const querySnapshot = await userRef.get();
-
-        const fetchedpetkeeper = [];
-        querySnapshot.forEach((doc) => {
-          // Extract data for each document
-          const data = doc.data();
-          fetchedpetkeeper.push(data);
-        });
-
-        setPetkeeper(fetchedpetkeeper);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-  const [petparent, setPetParrent] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userRef = firebase.firestore().collection("petparents");
-        const querySnapshot = await userRef.get();
-
-        const fetchedpetkeeper = [];
-        querySnapshot.forEach((doc) => {
-          // Extract data for each document
-          const data = doc.data();
-          fetchedpetkeeper.push(data);
-        });
-
-        setPetParrent(fetchedpetkeeper);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
- 
-
-  // Calculate counts for Active and Pending users
-
-  const [todayorders, setTodayOrders] = useState([]);
-
-  
-
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const userToken = JSON.parse(localStorage.getItem("myuser")).token;
-        const requestBody = { token: userToken };
-
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_HOST}/api/myorders`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(requestBody),
-          }
-        );
-
-        if (res.ok) {
-          const data = await res.json();
-
-          if (Array.isArray(data.orders)) {
-            const today = new Date().toISOString().split('T')[0]; // Get current date in ISO format
-            const todayOrders = data.orders.filter(order => order.createdAt.startsWith(today)); // Filter orders created today
-            setTodayOrders(todayOrders);
-          } else {
-            console.error("Orders data is not an array:", data.orders);
-          }
-        } else {
-          // Handle unsuccessful response if needed
-        }
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (!localStorage.getItem("myuser")) {
-      router.push("/");
-    } else {
-      fetchOrders();
-    }
-  }, [router]);
-
-
-  const totalPetKeepers = petkeeper.length;
-  const totalPetParrents = petparent.length;
-  const totaltodayOrders = todayorders.length;
-
-
-  const formatTimestamp = (timestamp) => {
-    const date = new Date(timestamp.seconds * 1000); // Convert to milliseconds
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    });
-  };
-
-  const handleViewImage = (imageUrl) => {
-    // Open the image in a new tab
-    window.open(imageUrl, '_blank');
-  };
-
+  const [searchQuery, setSearchQuery] = useState('');
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
   };
-  const [searchQuery, setSearchQuery] = useState('');
-  const filteredOrderDetails = todayorders.filter((order, index) => {
+  const filteredOrderDetails = orders.filter((order, index) => {
     return (
       (order.email && order.email.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (order.orderId && typeof order.orderId === 'string' && order.orderId.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -291,122 +164,14 @@ console.log("Total orders",orders)
   });
   return (
     <div className="">
-      <div className="lg:ml-64 bg-white dark:bg-white min-h-screen">
-      
-        <section class="px-6 py-6">
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
-            <div class="flex items-center justify-between p-4 border-l-2 border-yellow-500 rounded-md shadow dark:border-blue-400 dark:bg-gray-900 bg-gray-50">
-              <div>
-                <p class="mb-2 text-black dark:text-black">Total Pet Keepers</p>
-                <h2 class="text-2xl font-bold text-black dark:text-black">
-                  {totalPetKeepers}
-                </h2>
-              </div>
-              <div>
-                <span class="inline-block p-4 mr-2 text-white bg-yellow-500 rounded-full dark:text-black dark:bg-gray-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="w-6 h-6 bi bi-bag-check"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"
-                    ></path>
-                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"></path>
-                  </svg>
-                </span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-4 border-l-2 border-yellow-500 rounded-md shadow dark:border-blue-400 dark:bg-gray-900 bg-gray-50">
-              <div>
-                <p class="mb-2 text-black dark:text-black">Total Pet Parrents</p>
-                <h2 class="text-2xl font-bold text-black dark:text-black">
-                  {totalPetParrents}
-                </h2>
-              </div>
-              <div>
-                <span class="inline-block p-4 mr-2 text-white bg-yellow-500 rounded-full dark:text-black dark:bg-gray-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="w-6 h-6 bi bi-bag-check"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"
-                    ></path>
-                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"></path>
-                  </svg>
-                </span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-4 border-l-2 border-green-500 rounded-md shadow dark:border-blue-400 dark:bg-gray-900 bg-gray-50">
-              <div>
-                <p class="mb-2 text-black dark:text-black">Total Order</p>
-                <h2 class="text-2xl font-bold text-black dark:text-black">
-               {TotalOrder}
-                </h2>
-              </div>
-              <div>
-                <span class="inline-block p-4 mr-2 text-white bg-green-500 rounded-full dark:text-black dark:bg-gray-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="w-6 h-6 bi bi-bag-check"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"
-                    ></path>
-                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"></path>
-                  </svg>
-                </span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-4 border-l-2 border-red-500 rounded-md shadow dark:border-blue-400 dark:bg-gray-900 bg-gray-50">
-              <div>
-                <p class="mb-2 text-black dark:text-black">Today Order</p>
-                <h2 class="text-2xl font-bold text-black dark:text-black">
-                  {totaltodayOrders}
-                </h2>
-              </div>
-              <div>
-                <span class="inline-block p-4 mr-2 text-white bg-red-500 rounded-full dark:text-black dark:bg-gray-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="w-6 h-6 bi bi-bag-check"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"
-                    ></path>
-                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"></path>
-                  </svg>
-                </span>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section className=" items-center lg:flex bg-gray-50  font-poppins dark:bg-gray-800 ">
-        <div className="justify-center flex max-w-full px-4 py-4 mx-auto lg:py-8 md:px-6">
-          <div className="overflow-x-auto bg-white rounded shadow dark:bg-gray-900">
-            <div className="">
-              <h2 className="px-6 py-4 pb-4 text-xl font-medium border-b border-gray-300 dark:border-gray-700 dark:text-gray-400">Today Orders</h2>
-              <div className="px-6 py-4">
+      {loading ? (
+        <p className="lg:ml-64 ">Loading...</p> // You can replace this with your desired loading indicator or component
+      ) : (
+        <>
+          <div className="lg:ml-64 bg-white dark:bg-white min-h-screen">
+          
+<h1 className="text-xl font-bold text-center" >Orders </h1>
+<div className="px-6 py-4">
                 <input
                   type="text"
                   placeholder="Search by Email and orderId"
@@ -415,7 +180,51 @@ console.log("Total orders",orders)
                   className="w-full px-3 py-2 border rounded-md"
                 />
               </div>
-              <table class="min-w-full leading-normal">
+            <body class="antialiased font-sans ">
+              <div class=" px-4 sm:px-8">
+                <div class="py-8">
+                  {/* <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-2xl font-semibold">Orders</h2>
+                    <div className="space-x-4 flex flex-col md:flex-row ">
+                      <input
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        className="px-4 py-2 text-sm mb-2 font-semibold bg-red-600 border-none text-white rounded focus:outline-none"
+                        placeholder="Start Date"
+                      />
+
+                      <input
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        className="px-4 py-2 text-sm mb-2 font-semibold bg-red-600 border-none text-white rounded focus:outline-none"
+                        placeholder="End Date"
+                      />
+
+                      <button
+                        onClick={fetchOrders}
+                        className="px-4 py-2 text-sm mb-2 font-semibold bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
+                      >
+                        Filter Orders
+                      </button>
+                      <button
+                        onClick={downloadOrders}
+                        className="px-4 py-2 text-sm mb-2 font-semibold bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-300"
+                      >
+                        Download Orders
+                      </button>
+                    </div>
+                  </div> */}
+
+                  <div class="my-2 ml-8 flex sm:flex-row flex-col">
+                    <div class="flex flex-row mb-1 sm:mb-0">
+                    
+                    </div>
+                  </div>
+                  <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                    <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                      <table class="min-w-full leading-normal">
                         <thead>
                           <tr>
                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-black uppercase tracking-wider">
@@ -499,12 +308,19 @@ console.log("Total orders",orders)
                           ))}
                         </tbody>
                       </table>
-            </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </body>
+
+            <script
+              defer
+              src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+            ></script>
           </div>
-        </div>
-      </section>
-       
-      </div>
+        </>
+      )}
     </div>
   );
 };

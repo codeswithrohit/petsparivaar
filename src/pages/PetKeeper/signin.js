@@ -1,30 +1,43 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { auth } from '../../Firebase/config';
+import { firebase } from '../../Firebase/config';
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
-
 import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
+
 const SignIn = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
 
     try {
-      setLoading(true); // Set loading state to true
+      setLoading(true);
 
       // Sign in the user with email and password
-      await auth.signInWithEmailAndPassword(email, password);
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+
+      // Check if the signed-in user is a pet keeper
+      const isPetKeeper = await checkPetKeeper(email);
+
+      if (isPetKeeper) {
+        // If the user is a pet keeper, set 'ispetkeeper' to true in localStorage
+        localStorage.setItem("ispetkeeper", true);
+      }
+
+      // Store the user's email in localStorage
+      localStorage.setItem("userEmail", email);
+
       // Redirect to a protected page or perform any other actions
-      router.push('/'); // Change '/dashboard' to your desired destination
+      router.push('/PetKeeper'); // Change '/dashboard' to your desired destination
+
       // Show a success toast notification
       toast.success('You have signed in successfully!', {
         position: 'top-right',
-        autoClose: 3000, // Close the notification after 3 seconds
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -33,8 +46,7 @@ const SignIn = () => {
       });
     } catch (error) {
       console.error(error);
-      // Handle sign-in error, e.g., display an error message to the user
-      // Show an error toast notification
+      // Handle sign-in error
       toast.error('Sign-in failed. Please check your credentials and try again.', {
         position: 'top-right',
         autoClose: 5000,
@@ -45,32 +57,21 @@ const SignIn = () => {
         progress: undefined,
       });
     } finally {
-      setLoading(false); // Set loading state back to false
+      setLoading(false);
     }
   };
 
-
-  const [showPopup, setShowPopup] = useState(false);
-
-  const handlePetParentClick = () => {
-    // Redirect to the Pet Parent URL
-    window.location.href = '/pet-parent-url';
+  const checkPetKeeper = async (email) => {
+    try {
+      // Check if the user's email exists in the 'petkeeper' collection in Firestore
+      const doc = await firebase.firestore().collection('petkeeper').doc(email).get();
+      return doc.exists;
+    } catch (error) {
+      console.error('Error checking pet keeper:', error);
+      return false;
+    }
   };
 
-  const handlePetKeeperClick = () => {
-    // Redirect to the Pet Keeper URL
-    window.location.href = '/pet-keeper-url';
-  };
-
-  const handleSignupClick = () => {
-    // Show the popup when the "Sign up" button is clicked
-    setShowPopup(true);
-  };
-
-  const handleClosePopup = () => {
-    // Close the popup when the close button is clicked
-    setShowPopup(false);
-  };
   return (
     <div><div class="bg-white font-[sans-serif] text-[#333] min-h-screen flex flex-col items-center justify-center py-6 px-4">
     <div class="max-w-md w-full border p-8 rounded-md bg-gray-200">

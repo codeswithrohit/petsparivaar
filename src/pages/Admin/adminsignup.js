@@ -60,7 +60,7 @@ const AdminSignup = () => {
         toast.success('Account created successfully!');
         // Redirect to the home page after successful registration
         // Replace '/admin/home' with your desired home page route
-        window.location.replace('/Admin/adminlogin.html');
+        window.location.replace('/Admin/adminlogin');
       }
     } catch (error) {
       console.error('Error signing up:', error.message);

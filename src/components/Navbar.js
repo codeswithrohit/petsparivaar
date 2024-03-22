@@ -9,9 +9,9 @@ import { FaUser, FaShoppingCart } from "react-icons/fa";
 const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "AboutUs", href: "/About", current: false },
-  { name: "Services", href: "#", current: false },
-  { name: "Contact Us", href: "#", current: false },
-  { name: "Testimonial", href: "#", current: false },
+  // { name: "Services", href: "#", current: false },
+  { name: "Contact Us", href: "/contact", current: false },
+  // { name: "Testimonial", href: "#", current: false },
 ];
 
 function classNames(...classes) {

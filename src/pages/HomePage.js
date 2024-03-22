@@ -15,7 +15,7 @@ const Test = () => {
   const [selectedPet, setSelectedPet] = useState('Dog');
   const [selectedTab, setSelectedTab] = useState('Boarding');
   const [selectedDates, setSelectedDates] = useState({});
-  const [numberOfPets, setNumberOfPets] = useState(1);
+  // const [numberOfPets, setNumberOfPets] = useState(1);
   const [nearestLocation, setNearestLocation] = useState('');
   const [Location, setLocation] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
@@ -125,7 +125,7 @@ const Test = () => {
     e.preventDefault();
   
     const formattedDates = `${selectedDates.start},${selectedDates.end}`;
-    router.push(`/petdetail?petType=${selectedPet}&serviceOption=${selectedTab}&Date=${formattedDates}&dogSize=${selectedSize}&numberOfPets=${numberOfPets}&location=${Location}&nearestLocation=${nearestLocation}`);
+    router.push(`/petdetail?petType=${selectedPet}&serviceOption=${selectedTab}&Date=${formattedDates}&dogSize=${selectedSize}&location=${Location}&nearestLocation=${nearestLocation}`);
   };
   
   
@@ -238,7 +238,7 @@ const Test = () => {
       </div>
     </div>
     <div className='flex' >
-    <div class="">
+    {/* <div class="">
       <p class="mt-8 font-serif text-xl font-bold text-blue-900">Select Number of Pets</p>
       <div class="">
         <div className="flex-1">
@@ -258,7 +258,7 @@ const Test = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div> */}
     <div class="ml-3">
       <p class="mt-8 font-serif text-xl font-bold text-blue-900">Select Location</p>
       <div class="">
