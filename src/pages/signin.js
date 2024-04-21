@@ -20,7 +20,7 @@ const test = () => {
       // Sign in the user with email and password
       await auth.signInWithEmailAndPassword(email, password);
       // Redirect to a protected page or perform any other actions
-      router.push('/'); // Change '/dashboard' to your desired destination
+       // Change '/dashboard' to your desired destination
       // Show a success toast notification
       toast.success('You have signed in successfully!', {
         position: 'top-right',
@@ -31,6 +31,7 @@ const test = () => {
         draggable: true,
         progress: undefined,
       });
+      router.push('/');
     } catch (error) {
       console.error(error);
       // Handle sign-in error, e.g., display an error message to the user

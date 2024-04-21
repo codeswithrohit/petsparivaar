@@ -293,7 +293,7 @@ function MyApp({ Component, pageProps }) {
     <div>
     {!isAdminRoute && !isPetKeeperRoute && <Navbar />}
     {isAdminRoute && <AdminNav />}
-    {isPetKeeperRoute && <PetKeeperNav />}
+    {/* {isPetKeeperRoute && <PetKeeperNav />} */}
     <Component bookNow={bookNow}
         cart={cart}
         cartLength={cartLength}

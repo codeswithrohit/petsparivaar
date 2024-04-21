@@ -1,26 +1,77 @@
 import { useEffect, useState } from "react";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/router";
-import { firebase } from "../../Firebase/config";
-import { isAbsoluteUrl } from "next/dist/shared/lib/utils";
 import Link from "next/link";
+import { firebase } from "../../Firebase/config";
+
 const Dashboard = () => {
   const router = useRouter();
+  const [tab, setTab] = useState("total");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [userData, setUserData] = useState(null);
+  const [emails, setEmails] = useState('');
+  const [loadingUserData, setLoadingUserData] = useState(true);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
-  // Check if the user is an admin when the component mounts
+  const [showProfileModal, setShowProfileModal] = useState(false);
+
   useEffect(() => {
     const isAdminInLocalStorage = localStorage.getItem("ispetkeeper") === "true";
-    setIsAdmin(isAdminInLocalStorage);
     if (!isAdminInLocalStorage) {
-      // If the user is not an admin, show a loading message or redirect them to the login page
       router.push("/PetKeeper");
     } else {
+      fetchOrders();
     }
   }, [router]);
- 
+
+  useEffect(() => {
+    const email = localStorage.getItem('userEmail');
+    setEmails(email)
+    if (email) {
+      fetchUserData(email);
+    } else {
+      router.push('/PetKeeper/signin');
+    }
+  }, [router]);
+
+  const fetchUserData = async (emails) => {
+    try {
+      const querySnapshot = await firebase.firestore().collection('petkeeper').where("email", "==", emails).get();
+      if (!querySnapshot.empty) {
+        const doc = querySnapshot.docs[0];
+        setUserData(doc.data());
+      } else {
+        console.log('No such document!');
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    } finally {
+      setLoadingUserData(false);
+    }
+  };
+
+  const handleLogout = () => {
+    // Clear user authentication state
+    firebase.auth().signOut().then(() => {
+      // Clear user-related data in localStorage
+      localStorage.removeItem("ispetkeeper");
+      localStorage.removeItem('userEmail');
+      // Redirect to the sign-in page
+      router.push('/PetKeeper/signin');
+    }).catch((error) => {
+      console.error('Error signing out:', error);
+    });
+  };
+
+  const openProfileModal = () => {
+    setShowProfileModal(true);
+  };
+
+  const closeProfileModal = () => {
+    setShowProfileModal(false);
+  };
+
+
+
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -61,11 +112,15 @@ const Dashboard = () => {
               );
             }
 
+            filteredOrders = filteredOrders.filter(
+              (order) => order.products[Object.keys(order.products)[0]].petkeeperemail === emails
+            );
+    
+
             // Sort orders by createdAt in descending order (latest first)
             const sortedOrders = filteredOrders.sort((a, b) => {
               return new Date(b.createdAt) - new Date(a.createdAt);
             });
-            
             setOrders(sortedOrders);
           } else {
             console.error("Orders data is not an array:", data.orders);
@@ -93,329 +148,172 @@ const Dashboard = () => {
 
 
 
-
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const fetchOrders = async () => {
-    try {
-      const userToken = JSON.parse(localStorage.getItem("myuser")).token;
-      const requestBody = { token: userToken };
-
-      // Include date range if provided
-      if (startDate && endDate) {
-        requestBody.startDate = startDate;
-        requestBody.endDate = endDate;
-      }
-
-      const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/myorders`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-
-        // Assuming 'orders' is a property within the received object
-        if (Array.isArray(data.orders)) {
-          // Filter orders by date range if provided
-          let filteredOrders = data.orders;
-
-          if (startDate && endDate) {
-            filteredOrders = filteredOrders.filter(
-              (order) =>
-                new Date(order.createdAt) >= new Date(startDate) &&
-                new Date(order.createdAt) <= new Date(endDate)
-            );
-          }
-
-          // Sort orders by createdAt in descending order (latest first)
-          const sortedOrders = filteredOrders.sort((a, b) => {
-            return new Date(b.createdAt) - new Date(a.createdAt);
-          });
-          setOrders(sortedOrders);
-        } else {
-          console.error("Orders data is not an array:", data.orders);
-          // Handle this scenario according to your application logic
-        }
-      } else {
-        // Handle unsuccessful response if needed
-      }
-    } catch (error) {
-      // Handle fetch error
-      console.error("Error fetching orders:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-
-
-
  
 
-  // Calculate counts for Active and Pending users
-
-  const [todayorders, setTodayOrders] = useState([]);
-
-  
-
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const userToken = JSON.parse(localStorage.getItem("myuser")).token;
-        const requestBody = { token: userToken };
-
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_HOST}/api/myorders`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(requestBody),
-          }
-        );
-
-        if (res.ok) {
-          const data = await res.json();
-
-          if (Array.isArray(data.orders)) {
-            const today = new Date().toISOString().split('T')[0]; // Get current date in ISO format
-            const todayOrders = data.orders.filter(order => order.createdAt.startsWith(today)); // Filter orders created today
-            setTodayOrders(todayOrders);
-          } else {
-            console.error("Orders data is not an array:", data.orders);
-          }
-        } else {
-          // Handle unsuccessful response if needed
-        }
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (!localStorage.getItem("myuser")) {
-      router.push("/");
-    } else {
-      fetchOrders();
-    }
-  }, [router]);
-
-
- 
-
-
-  const formatTimestamp = (timestamp) => {
-    const date = new Date(timestamp.seconds * 1000); // Convert to milliseconds
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    });
-  };
-
-  const handleViewImage = (imageUrl) => {
-    // Open the image in a new tab
-    window.open(imageUrl, '_blank');
-  };
-
-
-  const filtertotalOrders = (orders) => {
-    const email = localStorage.getItem("userEmail");
-    return orders.filter((order) => order.products.petkeeperemail === email);
-  };
-  const filtertodayOrders = (todayorders) => {
-    const email = localStorage.getItem("userEmail");
-    return todayorders.filter((order) => order.products.petkeeperemail === email);
-  };
-
-
-  const totaltodayOrders = filtertotalOrders.length;
-  const TotalOrder=filtertodayOrders.length
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
   };
-  const [searchQuery, setSearchQuery] = useState('');
-  const filteredOrderDetails = todayorders.filter((order, index) => {
+
+  console.log("orders pet",orders)
+
+  
+  
+  const filteredOrderDetails = orders.filter((order) => {
     return (
       (order.email && order.email.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (order.orderId && typeof order.orderId === 'string' && order.orderId.toLowerCase().includes(searchQuery.toLowerCase()))
     );
   });
+
+
+  
+
+  if (loadingUserData) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="flex gap-2">
+          <div className="w-5 h-5 rounded-full animate-pulse bg-blue-600"></div>
+          <div className="w-5 h-5 rounded-full animate-pulse bg-blue-600"></div>
+          <div className="w-5 h-5 rounded-full animate-pulse bg-blue-600"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="">
-      <div className="lg:ml-64 bg-white dark:bg-white min-h-screen">
-      
-        <section class="px-6 py-6">
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
-         
-            <div class="flex items-center justify-between p-4 border-l-2 border-green-500 rounded-md shadow dark:border-blue-400 dark:bg-gray-900 bg-gray-50">
-              <div>
-                <p class="mb-2 text-black dark:text-black">Total Order</p>
-                <h2 class="text-2xl font-bold text-black dark:text-black">
-               {TotalOrder}
-                </h2>
-              </div>
-              <div>
-                <span class="inline-block p-4 mr-2 text-white bg-green-500 rounded-full dark:text-black dark:bg-gray-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="w-6 h-6 bi bi-bag-check"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"
-                    ></path>
-                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"></path>
-                  </svg>
-                </span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-4 border-l-2 border-red-500 rounded-md shadow dark:border-blue-400 dark:bg-gray-900 bg-gray-50">
-              <div>
-                <p class="mb-2 text-black dark:text-black">Today Order</p>
-                <h2 class="text-2xl font-bold text-black dark:text-black">
-                  {totaltodayOrders}
-                </h2>
-              </div>
-              <div>
-                <span class="inline-block p-4 mr-2 text-white bg-red-500 rounded-full dark:text-black dark:bg-gray-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="w-6 h-6 bi bi-bag-check"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"
-                    ></path>
-                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"></path>
-                  </svg>
-                </span>
-              </div>
-            </div>
+    <div className="bg-white dark:bg-white min-h-screen">
+      <div className="mx-auto max-w-screen-xl bg-white">
+        <div className="flex justify-between items-center py-4 px-6 border-b">
+          <h1 className="text-2xl font-bold text-gray-900">Order Management</h1>
+          <h2 className="text-md font-bold text-gray-500">Hello,{userData.name}</h2>
+          <div>
+            <button
+              onClick={openProfileModal}
+              className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md mr-4"
+            >
+              View Profile
+            </button>
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 bg-red-500 text-white rounded-md"
+            >
+              Logout
+            </button>
           </div>
-        </section>
-        <section className=" items-center lg:flex bg-gray-50  font-poppins dark:bg-gray-800 ">
-        <div className="justify-center flex max-w-full px-4 py-4 mx-auto lg:py-8 md:px-6">
-          <div className="overflow-x-auto bg-white rounded shadow dark:bg-gray-900">
-            <div className="">
-              <h2 className="px-6 py-4 pb-4 text-xl font-medium border-b border-gray-300 dark:border-gray-700 dark:text-gray-400">Today Orders</h2>
-              <div className="px-6 py-4">
-                <input
-                  type="text"
-                  placeholder="Search by Email and orderId"
-                  value={searchQuery}
-                  onChange={handleSearch}
-                  className="w-full px-3 py-2 border rounded-md"
-                />
+        </div>
+        <div className="w-screen bg-gray-50">
+          <div className="mx-auto max-w-screen-xl px-2 py-10">
+            <div className="mt-4 w-full">
+              <div className="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row sm:space-y-0">
+                <form className="relative flex w-full max-w-2xl items-center">
+                  <svg className="absolute left-2 block h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8" className=""></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" className=""></line>
+                  </svg>
+                  <input type="name" name="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="h-12 w-full border-b-gray-400 bg-transparent py-4 pl-12 text-sm outline-none focus:border-b-2" placeholder="Search by name, email, orderid" />
+                </form>
+                {/* <button type="button" className="relative mr-auto inline-flex cursor-pointer items-center rounded-full border border-gray-200 bg-white px-5 py-2 text-center text-sm font-medium text-gray-800 hover:bg-gray-100 focus:shadow sm:mr-0">
+                  <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+                  <svg className="mr-2 h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                  </svg>
+                  Filter
+                </button> */}
               </div>
-              <table class="min-w-full leading-normal">
-                        <thead>
-                          <tr>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-black uppercase tracking-wider">
-                              OrderId
-                            </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-black uppercase tracking-wider">
-                              User Name
-                            </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-black uppercase tracking-wider">
-                              Email
-                            </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-black uppercase tracking-wider">
-                              Mobile Number
-                            </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-black uppercase tracking-wider">
-                              Address
-                            </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-black uppercase tracking-wider">
-                              Payment Status
-                            </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-black uppercase tracking-wider">
-                             Order Details
-                            </th>
-
-                           
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-black uppercase tracking-wider"></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {filteredOrderDetails.map((order, index) => (
-                            <tr key={order._id}>
-                              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-black whitespace-no-wrap">
-                                  #{order.orderId}
-                                </p>
-                              </td>
-                              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-black whitespace-no-wrap">
-                                  {order.name}
-                                </p>
-                              </td>
-                              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-black whitespace-no-wrap">
-                                  {order.email}
-                                </p>
-                              </td>
-                              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-black whitespace-no-wrap">
-                                  {order.phonenumber}
-                                </p>
-                              </td>
-
-                              <td class="px-5 py-5 border-b border-gray-200  bg-white text-sm">
-                                <p class="text-black whitespace-no-wrap">
-                                  {order.flatHouse},{order.locality},{order.location},{order.pincode}
-                                </p>
-                              </td>
-                              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-  <p class="text-black whitespace-no-wrap">
-   {order.status}
-  </p>
-</td>
-
-                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <Link
-                                  href={`/Admin/Adminorder?id=${order._id}`}
-                                  legacyBehavior
-                                >
-                                  <span className="relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                    <span
-                                      aria-hidden
-                                      className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                                    ></span>
-                                    <span className="relative">Details</span>
-                                  </span>
-                                </Link>
-                              </td>
-                            
-
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+            </div>
+            <div className="mt-6 overflow- rounded-xl bg-white px-6 shadow lg:px-4">
+              <table className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">
+                <thead className=" border-b lg:table-header-group">
+                  <tr className="">
+                    <th className="whitespace-normal py-4 text-sm font-semibold text-gray-800 sm:px-3">
+                      Order Date
+                      <svg xmlns="http://www.w3.org/2000/svg" className="float-right mt-1 h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                      </svg>
+                    </th>
+                    <th className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">Order ID</th>
+                    <th className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">Customer</th>
+                    <th className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">Address</th>
+                    <th className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">Payment Status</th>
+                    <th className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">Order Details</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white lg:border-gray-300">
+                  {filteredOrderDetails.map((order, index) => (
+                    <tr key={order._id} className="">
+                      <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-600 sm:px-3 lg:text-left">
+                       {order.createdAt}
+                      </td>
+                      
+                      <td className="whitespace-no-wrap  py-4 text-sm font-normal text-gray-600 sm:px-3 lg:table-cell">{order.orderId}</td>
+                      <td className="whitespace-no-wrap  py-4 text-sm font-normal text-gray-600 sm:px-3 lg:table-cell">
+                        <span className="flex flex-col">
+                          <span className="font-semibold">{order.name}</span>
+                          <span className="text-gray-500">{order.email}</span>
+                          <span className="text-gray-500">{order.phonenumber}</span>
+                        </span>
+                      </td>
+                      <td className="whitespace-no-wrap  py-4 text-left text-xs text-gray-600 sm:px-3 lg:table-cell lg:text-left">
+                        <p className="text-black whitespace-no-wrap">
+                          {order.flatHouse}, {order.locality}, {order.location}, {order.pincode}
+                        </p>
+                      </td>
+                      <td className="whitespace-no-wrap  py-4 text-sm font-normal text-gray-500 sm:px-3 lg:table-cell">
+                        <span className="ml-2 mr-3 whitespace-nowrap rounded-full bg-purple-100 px-2 py-0.5 text-purple-800">{order.status}</span>
+                      </td>
+                      <td className="whitespace-no-wrap  py-4 text-sm font-normal text-gray-500 sm:px-3 lg:table-cell">
+                        <Link href={`/Admin/Adminorder?id=${order._id}`} legacyBehavior>
+                          <span className="relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                            <span aria- className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                            <span className="relative">Details</span>
+                          </span>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-      </section>
-       
       </div>
+      {showProfileModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75">
+          <div className="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold text-gray-900">User Profile</h2>
+              <button onClick={closeProfileModal} className="text-gray-700 hover:text-gray-900 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="mb-4">
+              <p className="text-sm text-gray-600">Email: {userData.email}</p>
+              <p className="text-sm text-gray-600">Phone Number: {userData.phoneNumber}</p>
+              <p className="text-sm text-gray-600">Name: {userData.name}</p>
+              <p className="text-sm text-gray-600">Is Pet Keeper: {userData.ispetkeeper}</p>
+              <p className="text-sm text-gray-600">Address: {userData.flatHouse}, {userData.locality}, {userData.location}, {userData.pincode}</p>
+              <p className="text-sm text-gray-600">Pets:</p>
+              <ul>
+                {userData.pets.map((pet, index) => (
+                  <li key={index} className="ml-4">
+                    <p>Type: {pet.type}</p>
+                    <p>Price: {pet.price}</p>
+                    <p>Service: {pet.service}</p>
+                    <p>Options: {pet.options}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="text-center">
+              {/* Add any buttons or actions related to the profile here */}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -186,7 +186,7 @@ export default function Navbar() {
 
                         <div className="py-1" role="none">
                           <a
-                            href="/Order-History"
+                            href="/orders"
                             className="flex px-4 py-2 text-sm text-black border-l-2 border-transparent dark:hover:border-red-600 rounded-bl-md hover:border-red-600 dark:text-black dark:hover:text-black hover:text-red-600"
                           >
                             <span className="mr-2">
@@ -251,7 +251,7 @@ export default function Navbar() {
                
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <Link href='/petkeepersignin' >
+                <Link href='/PetKeeper/signin' >
                 <button className="rounded-full border border-orange-100 px-3 py-2 text-sm font-medium text-orange-500 hover:bg-orange-500 hover:text-white  hover:shadow-lg">
                   Pet Keeper
                 </button>
