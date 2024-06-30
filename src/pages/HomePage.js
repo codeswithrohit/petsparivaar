@@ -48,13 +48,25 @@ const Test = () => {
    
     {
       id: 1,
-      imageUrl: "slider1.png",
+      imageUrl: "s1.png",
       link: "/",
       linkName: "Link 1",
     },
     {
       id: 2,
-      imageUrl: "slider2.png",
+      imageUrl: "s2.png",
+      link: "/",
+      linkName: "Link 2",
+    },
+    {
+      id: 3,
+      imageUrl: "s3.png",
+      link: "/",
+      linkName: "Link 2",
+    },
+    {
+      id: 4,
+      imageUrl: "s4.png",
       link: "/",
       linkName: "Link 2",
     },

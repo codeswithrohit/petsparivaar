@@ -231,7 +231,7 @@ const PetDate = Date
                   <p className="font-normal text-gray-500">4.5</p>
                 </div> */}
                 <div className="flex items-center  justify-between min-w-0">
-                  <h2 className="mr-auto text-red-600 text-center  text-base capitalize font-medium truncate">{item.name}</h2>
+                  <h2 className="mr-auto text-green-600 text-center  text-base capitalize font-medium truncate">{item.name}</h2>
                 </div>
                 <p className="flex capitalize items-center text-xs text-gray-400">{item.location}. {item.distance} <span className="relative inline-flex rounded-md shadow-sm ml-2">
                     <span className="flex absolute h-2 w-2 top-0 right-0 -mt-1 -mr-1">
@@ -256,7 +256,7 @@ const PetDate = Date
         <span>{pet.price}</span><span className="text-gray-500 text-sm font-normal"> /Day</span>
       </div>
       <button 
-  className="flex-no-shrink ml-2 bg-red-400 hover:bg-red-500 px-5 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-red-300 hover:border-red-500 text-white rounded-full transition ease-in duration-300" 
+  className="flex-no-shrink ml-2 bg-green-600 hover:bg-green-800 px-5 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-blue-500 hover:border-blue-800 text-white rounded-full transition ease-in duration-300" 
   type="button" 
   aria-label="like" 
   onClick={() => bookNow(1, 1, pet.type, pet.price, pet.service, item.name, item.location,item.email,PetDate)}>

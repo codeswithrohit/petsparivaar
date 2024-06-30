@@ -72,7 +72,7 @@ const StepWiseRegistrationForm = () => {
   name="breed"
   value={pet.breed}
   onChange={(e) => handlePetInputChange(e, index)}
-class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md"
+class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md"
 >
 <option value="">Select Dog Breed</option>
           <option value="Labrador">Labrador</option>
@@ -93,7 +93,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
     name="breed"
     value={pet.breed}
     onChange={(e) => handlePetInputChange(e, index)}
-class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md"
+class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md"
 >
 <option value="">Select Cat Breed</option>
           <option value="Persian">Persian</option>
@@ -117,7 +117,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
           placeholder="Pet Breed"
           value={pet.breed}
           onChange={(e) => handlePetInputChange(e, index)}
-                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md" />
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md" />
         </div>
     </div>
        
@@ -353,7 +353,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
   return (
     <div className="min-h-screen flex items-center justify-center ">
       <div className="w-full max-w-xl">
-        <h1 className="text-3xl font-bold text-[#f97316] text-center mt-4">
+        <h1 className="text-3xl font-bold text-[#4f46e5] text-center mt-4">
           Pet Parrent Registration
         </h1>
         <form
@@ -366,7 +366,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
             <>
              <div class="flex mb-4 items-items justify-center max-md:flex-col gap-y-6 gap-x-2 max-w-screen-lg mx-auto px-4 font-[sans-serif] mt-4">
       <div class="overflow-hidden min-w-[250px] pr-[35px]">
-        <div class="bg-[#f97316] h-[60px] py-2.5 px-6 rounded-md relative after:bg-[#f97316] after:absolute after:h-[60px] after:w-[60px] after:top-0 after:-right-4 after:rotate-[46deg] after:rounded-sm">
+        <div class="bg-[#4f46e5] h-[60px] py-2.5 px-6 rounded-md relative after:bg-[#4f46e5] after:absolute after:h-[60px] after:w-[60px] after:top-0 after:-right-4 after:rotate-[46deg] after:rounded-sm">
           <div class="relative z-10">
             <h4 class="text-base font-bold text-white">Personal Info</h4>
             <p class="text-xs text-gray-300">Step Inputs here</p>
@@ -399,7 +399,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                   placeholder="Name"
                   value={formData.name}
                   onChange={handleInputChange}
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md" />
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md" />
                     </div>
                 </div>
               <div class="w-full px-3 sm:w-1/2">
@@ -412,7 +412,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                   placeholder="Email Address"
                   value={formData.email}
                   onChange={handleInputChange}
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md" />
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md" />
                     </div>
                 </div>
               <div class="w-full px-3 sm:w-1/2">
@@ -425,7 +425,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                   placeholder="Enter Paswword"
                   value={formData.password}
                   onChange={handleInputChange}
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md" />
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md" />
                     </div>
                 </div>
            
@@ -446,7 +446,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                               placeholder="Mobile Number"
                               value={verifiedPhoneNumber}
                               readOnly
-                              class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md" />
+                              class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md" />
                       </div>
                   </div>
               <h1 className='text-xs text-green-700 ml-4' >Your Mobile Number is Verified Successfully</h1>
@@ -469,7 +469,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                           placeholder="Enter OTP"
                           value={formData.verificationCode}
                           onChange={handleInputChange}
-                              class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md" />
+                              class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md" />
                       </div>
                   </div>
                     )}
@@ -529,7 +529,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                             placeholder="Mobile Number"
                             value={formData.phoneNumber}
                             onChange={handleInputChange}
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md" />
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md" />
                     </div>
                 </div>
                 <button
@@ -591,7 +591,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                     placeholder="Flat/House #"
                     value={formData.flatHouse}
                     onChange={handleInputChange}
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md" />
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md" />
                     </div>
                 </div>
              
@@ -606,7 +606,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                      placeholder="Locality"
                      value={formData.locality}
                      onChange={handleInputChange}
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md" />
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md" />
                     </div>
                 </div>
                 <div class="w-full px-3 ">
@@ -620,7 +620,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                        value={Location}
                        onChange={(e) => setLocation(e.target.value)}
                        placeholder="Search Location"
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md" />
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md" />
                             </Autocomplete>
                     </div>
                 </div>
@@ -637,7 +637,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                   placeholder="Pincode"
                   value={formData.pincode}
                   onChange={handleInputChange}
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md" />
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md" />
                     </div>
                 </div>
                 <div class="w-full px-3 sm:w-1/2">
@@ -651,7 +651,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                    placeholder="Landmark"
                    value={formData.landmark}
                    onChange={handleInputChange}
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md" />
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md" />
                     </div>
                 </div>
                 <div class="w-full px-3 sm:w-1/2">
@@ -665,7 +665,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                   placeholder="Number of Pets"
                   value={formData.numberOfPets}
                   onChange={handleInputChange}
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md" />
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md" />
                     </div>
                 </div>
              
@@ -681,7 +681,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
   <>
      <div class="flex mb-4 items-items justify-center max-md:flex-col gap-y-6 gap-x-2 max-w-screen-lg mx-auto px-4 font-[sans-serif] mt-4">
       <div class="overflow-hidden min-w-[250px] pr-[35px]">
-        <div class="bg-[#f97316] h-[60px] py-2.5 px-6 rounded-md relative after:bg-[#f97316] after:absolute after:h-[60px] after:w-[60px] after:top-0 after:-right-4 after:rotate-[46deg] after:rounded-sm">
+        <div class="bg-[#4f46e5] h-[60px] py-2.5 px-6 rounded-md relative after:bg-[#4f46e5] after:absolute after:h-[60px] after:w-[60px] after:top-0 after:-right-4 after:rotate-[46deg] after:rounded-sm">
           <div class="relative z-10">
             <h4 class="text-base font-bold text-white">Personal Info</h4>
             <p class="text-xs text-gray-300">Step Inputs here</p>
@@ -689,7 +689,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
         </div>
       </div>
       <div class="overflow-hidden min-w-[250px] pr-[35px]">
-        <div class="bg-[#f97316] h-[60px] py-2.5 px-6 rounded-md relative after:bg-[#f97316] after:absolute after:h-[60px] after:w-[60px] after:top-0 after:-right-4 after:rotate-[46deg] after:rounded-sm">
+        <div class="bg-[#4f46e5] h-[60px] py-2.5 px-6 rounded-md relative after:bg-[#4f46e5] after:absolute after:h-[60px] after:w-[60px] after:top-0 after:-right-4 after:rotate-[46deg] after:rounded-sm">
           <div class="relative z-10">
             <h4 class="text-base font-bold text-white">Pet Info</h4>
             <p class="text-xs text-gray-300">Step Inputs here</p>
@@ -714,7 +714,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                placeholder="Pet Name"
                value={pet.petName || ''}
                onChange={(e) => handlePetInputChange(e, index)}
-               class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md"
+               class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md"
              />
            </div>
          </div>
@@ -724,7 +724,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                name="type"
                value={pet.type || ''}
                onChange={(e) => handlePetTypeChange(e, index)}
-               class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md"
+               class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md"
              >
                <option value="">Select Pet Type</option>
                <option value="dog">Dog</option>
@@ -745,7 +745,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                placeholder="Pet Age"
                value={pet.age || ''}
                onChange={(e) => handlePetInputChange(e, index)}
-               class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md"
+               class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md"
              />
            </div>
          </div>
@@ -759,7 +759,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
                placeholder="Medical History"
                value={pet.medicalHistory || ''}
                onChange={(e) => handlePetInputChange(e, index)}
-               class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#f97316] focus:shadow-md"
+               class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#4f46e5] focus:shadow-md"
              />
            </div>
          </div>
@@ -816,7 +816,7 @@ class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base fo
             </button>
             <button
               type="button"
-              className={`flex-1 border ml-8 border-transparent focus:outline-none p-3 rounded-lg text-center text-white bg-orange-600 hover:bg-orange-700 text-lg`}
+              className={`flex-1 border ml-8 border-transparent focus:outline-none p-3 rounded-lg text-center text-white bg-green-500 hover:bg-green-700 text-lg`}
               onClick={handleSubmit}
               disabled={isLoading}
             >

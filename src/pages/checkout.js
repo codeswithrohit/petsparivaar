@@ -60,15 +60,8 @@ const Checkout = ({ cart, clearCart, subTotal,removeFromCart }) => {
       setLoading(false);
     }
   };
+console.log("petpareent",userData)
 
-
-  useEffect(() => {
-    if (petName.length > 2 && petAge.length > 0 && medicalHistory.length > 3) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  }, [petName, petAge, medicalHistory]);
   
 
   const handleChange = (e) => {
@@ -241,19 +234,28 @@ const Checkout = ({ cart, clearCart, subTotal,removeFromCart }) => {
               <h3 class="text-xl font-bold text-[#333]">03</h3>
               <h3 class="text-xl font-bold text-[#333]">Enter Your Pet Details</h3>
             </div>
-            <div class="md:col-span-2">
-            <form>
-                  <div class="grid sm:grid-cols-2 gap-5">
-                    <input type="text" placeholder="Pet Name" name="petName" value={petName} onChange={handleChange} class="px-4 py-3.5 bg-white text-[#333] w-full text-sm border-2 rounded-md focus:border-blue-500 outline-none" />
-                    <input type="text" placeholder="Pet Age" name="petAge" value={petAge} onChange={handleChange} class="px-4 py-3.5 bg-white text-[#333] w-full text-sm border-2 rounded-md focus:border-blue-500 outline-none" />
-                    <textarea placeholder="Medical History" name="medicalHistory" value={medicalHistory} onChange={handleChange} class="px-4 py-3.5 bg-white text-[#333] w-full h-24 text-sm border-2 rounded-md focus:border-blue-500 outline-none" />
-                    <div>
-                      <input type="checkbox" id="vaccinated" name="vaccinated" checked={vaccinated} onChange={handleChange} class="mr-2" />
-                      <label for="vaccinated" class="text-[#333] text-sm">Vaccinated</label>
-                    </div>
+            <div className="md:col-span-2">
+                {userData && userData.pets && userData.pets.length > 0 && (
+                  <div>
+                    <h2 className="text-lg font-semibold mb-4">Select Your Pets</h2>
+                    {userData.pets.map((pet, index) => (
+                      <div key={index} className="flex items-center mb-4">
+                        <input
+                          type="checkbox"
+                          id={`pet-${index}`}
+                          name="pets"
+                          value={pet.petName}
+                          onChange={handleChange}
+                          className="mr-2"
+                        />
+                        <label htmlFor={`pet-${index}`} className="text-sm text-[#333]">
+                          {pet.petName} ({pet.type}, {pet.breed}, {pet.age})
+                        </label>
+                      </div>
+                    ))}
                   </div>
-                </form>
-            </div>
+                )}
+              </div>
           </div>
           <div class="grid md:grid-cols-3 gap-6 mt-12">
             <div>

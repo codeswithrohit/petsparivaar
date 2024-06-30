@@ -116,7 +116,7 @@ anytime, anywhere</h3>
             </div>
         </div>
 
-        <div class="bg-white mb-4 px-12 font-[sans-serif]">
+        {/* <div class="bg-white mb-4 px-12 font-[sans-serif]">
   <h2 class="text-3xl font-extrabold text-indigo-700 mb-10">Frequently Asked Questions</h2>
   <div class="space-y-8 max-w-4xl">
     <div class="flex items-start">
@@ -175,7 +175,7 @@ anytime, anywhere</h3>
       </div>
     </div>
   </div>
-</div>
+</div> */}
       </div>
     </div>
   );
