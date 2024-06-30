@@ -89,9 +89,7 @@ console.log("petpareent",userData)
         break;
     }
 
-    if (name && email) {
-      setDisabled(false);
-    }
+   
   };
 
   const initiatePayment = async () => {
@@ -325,7 +323,7 @@ console.log("petpareent",userData)
         </div>
         ) : (
       <div className='mx-4'>
-        <Link href={'/checkout'}><button disabled={disabled} onClick={initiatePayment} className=" disabled:bg-indigo-300 px-6 py-3.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700">Pay ₹{subTotal}</button></Link>
+        <Link href={'/checkout'}><button  onClick={initiatePayment} className=" disabled:bg-indigo-300 px-6 py-3.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700">Pay ₹{subTotal}</button></Link>
       </div>)}
 
           </div>

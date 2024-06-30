@@ -111,7 +111,7 @@ const SignIn = () => {
           <button   onClick={handleSignIn}   disabled={loading} class="w-full py-2.5 px-4 text-base font-semibold rounded-md text-white bg-[#1E2772] hover:bg-[#1e4272] focus:outline-none">
           {loading ? 'Loading...' : 'Login'}
           </button>
-          <p  class="text-sm mt-8 text-center">Don't have an account <a  href="/petkeeper" class="text-[#1E2772] hover:underline ml-1 whitespace-nowrap">Register here</a></p>
+          <p  class="text-sm mt-8 text-center">Don't have an account <a  href="/petkeeperregistration" class="text-[#1E2772] hover:underline ml-1 whitespace-nowrap">Register here</a></p>
         </div>
       </form>
     </div>

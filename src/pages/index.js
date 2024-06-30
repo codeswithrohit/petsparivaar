@@ -1,10 +1,6 @@
 import Head from "next/head";
 import About from "../components/About";
 import HomePage from "./HomePage";
-import Services from "./Services";
-import Notify from "../components/Notify";
-import Testimonial from "./Testimonial";
-import LandinPage from "./LandingPage";
 
 export default function Home() {
   return (
@@ -16,6 +12,8 @@ export default function Home() {
       </Head>
       <div className="min-h-screen" >
       <HomePage />
+    
+
       <div class="max-w-7xl mb-4 mx-auto font-[sans-serif] text-[#333]">
       <div class="text-center max-w-2xl mx-auto">
         <h2 class="sm:text-3xl text-2xl font-extrabold">Comprehensive Care for every Dog and Cat</h2>
@@ -81,101 +79,8 @@ anytime, anywhere</h3>
 
 
 
-    <div class="my-4 px-12 font-[sans-serif] text-[#333]">
-            <div class="max-w-6xl mx-auto">
-                <div class="grid md:grid-cols-2 items-center gap-8">
-                    <div class="space-y-6 bg-blue-50 rounded-md p-6 max-w-md max-md:mx-auto">
-                        <div class="flex sm:items-center max-sm:flex-col-reverse">
-                            <div class="mr-3">
-                                <h4 class="text-base font-extrabold">John Doe</h4>
-                                <p class="text-sm text-gray-400 mt-1">Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit.</p>
-                            </div>
-                            <img src='https://readymadeui.com/profile_2.webp' class="w-16 h-16 rounded-full max-sm:mb-2" />
-                        </div>
-                        <div class="flex sm:items-center max-sm:flex-col-reverse p-6 relative lg:left-12 bg-white shadow-[0_2px_20px_-4px_rgba(93,96,127,0.2)] rounded-md">
-                            <div class="mr-3">
-                                <h4 class="text-base font-extrabold">Mark Adair</h4>
-                                <p class="text-sm text-gray-400 mt-1">Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit.</p>
-                            </div>
-                            <img src='https://readymadeui.com/profile_3.webp' class="w-16 h-16 rounded-full max-sm:mb-2" />
-                        </div>
-                        <div class="flex sm:items-center max-sm:flex-col-reverse">
-                            <div class="mr-3">
-                                <h4 class="text-base font-extrabold">Simon Konecki</h4>
-                                <p class="text-sm text-gray-400 mt-1">Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit.</p>
-                            </div>
-                            <img src='https://readymadeui.com/profile_4.webp' class="w-16 h-16 rounded-full max-sm:mb-2" />
-                        </div>
-                    </div>
-                    <div>
-                        <h6 class="text-xl font-bold text-gray-200">Trusted by 120,000+ Pet Parents and Counting</h6>
-                        <h2 class="text-4xl font-extrabold mt-4">We are loyal with our customer</h2>
-                        <p class="text-sm text-gray-400 mt-4 leading-relaxed">Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit. Elit occaecat officia et laboris Lorem minim. Officia do aliqua adipisicing ullamco in.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        {/* <div class="bg-white mb-4 px-12 font-[sans-serif]">
-  <h2 class="text-3xl font-extrabold text-indigo-700 mb-10">Frequently Asked Questions</h2>
-  <div class="space-y-8 max-w-4xl">
-    <div class="flex items-start">
-      <div class="flex-shrink-0">
-        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-      </div>
-      <div class="ml-4">
-        <h3 class="text-lg font-semibold text-[#333]">How can I create an account?</h3>
-        <p class="text-sm text-[#333] mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Sed do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua.</p>
-      </div>
-    </div>
-    <div class="flex items-start">
-      <div class="flex-shrink-0">
-        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-      </div>
-      <div class="ml-4">
-        <h3 class="text-lg font-semibold text-[#333]">Is there a mobile app available?</h3>
-        <p class="text-sm text-[#333] mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua Sed do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua.</p>
-      </div>
-    </div>
-    <div class="flex items-start">
-      <div class="flex-shrink-0">
-        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-      </div>
-      <div class="ml-4">
-        <h3 class="text-lg font-semibold text-[#333]">How can I reset my password?</h3>
-        <p class="text-sm text-[#333] mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua.</p>
-      </div>
-    </div>
-    <div class="flex items-start">
-      <div class="flex-shrink-0">
-        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-      </div>
-      <div class="ml-4">
-        <h3 class="text-lg font-semibold text-[#333]">How do I update my account information?</h3>
-        <p class="text-sm text-[#333] mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Sed do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua.</p>
-      </div>
-    </div>
-  </div>
-</div> */}
+      
       </div>
     </div>
   );

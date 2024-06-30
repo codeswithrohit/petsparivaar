@@ -193,7 +193,7 @@ const StepWiseRegistrationForm = () => {
   
         setIsLoading(false);
         toast.success('Account created successfully.');
-        router.push('/petkeepersignin'); // Redirect to the sign-in page
+        router.push('/PetKeeper/signin'); // Redirect to the sign-in page
       }
     } catch (error) {
       console.error(error);
@@ -283,7 +283,7 @@ const StepWiseRegistrationForm = () => {
           <>
              <div class="flex mb-4 items-items justify-center max-md:flex-col gap-y-6 gap-x-2 max-w-screen-lg mx-auto px-4 font-[sans-serif] mt-4">
       <div class="overflow-hidden min-w-[250px] pr-[35px]">
-        <div class="bg-[#f97316] h-[60px] py-2.5 px-6 rounded-md relative after:bg-[#f97316] after:absolute after:h-[60px] after:w-[60px] after:top-0 after:-right-4 after:rotate-[46deg] after:rounded-sm">
+        <div class="bg-[#4f46e5] h-[60px] py-2.5 px-6 rounded-md relative after:bg-[#4f46e5] after:absolute after:h-[60px] after:w-[60px] after:top-0 after:-right-4 after:rotate-[46deg] after:rounded-sm">
           <div class="relative z-10">
             <h4 class="text-base font-bold text-white">Pet Keeper Registration</h4>
             <p class="text-xs text-gray-300">Step Inputs here</p>
@@ -653,7 +653,7 @@ const StepWiseRegistrationForm = () => {
            
           <button
   type="button"
-  className={`flex-1 border ml-8 border-transparent focus:outline-none p-3 rounded-lg text-center text-white bg-orange-600 hover:bg-orange-700 text-lg`}
+  className={`flex-1 border ml-8 border-transparent focus:outline-none p-3 rounded-lg text-center text-white bg-green-600 hover:bg-greeen-700 text-lg`}
   onClick={handleSubmit}
   disabled={isLoading}
 >
