@@ -164,7 +164,7 @@ const PetDate = Date
 
      
       <p className="font-serif text-xl font-bold text-blue-900">Search for this</p>
-      <div class="font-[sans-serif] w-max mx-auto bg-white border-2 border-[#333] flex rounded overflow-hidden grid grid-cols-1 md:grid-cols-5 md:w-auto">
+      <div class="font-[sans-serif] w-max mx-auto bg-white border-2 border-[#333] flex rounded overflow-hidden grid grid-cols-1 md:grid-cols-4 md:w-auto">
 
   <button 
     type="button"
@@ -181,11 +181,11 @@ const PetDate = Date
     Date: {Date}
   </button>
   
-  <button 
+  {/* <button 
     type="button"
     class="px-6 py-2.5 flex items-center text-[#333] text-xs md:text-xs tracking-wider font-semibold border-r-2 border-[#333] outline-none hover:text-white hover:bg-[#333] active:bg-[#111] transition-all">
     Pet Size: {dogSize}
-  </button>
+  </button> */}
   
  
   

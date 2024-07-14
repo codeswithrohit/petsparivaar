@@ -6,12 +6,10 @@ const Contact = () => {
         <div class="max-w-6xl mx-auto bg-white my-6 font-[sans-serif] text-[#011c2b]">
             <div class="text-center px-6">
                 <h2 class="text-3xl font-extrabold">Contact Us</h2>
-                <p class="text-sm text-gray-400 mt-3">Have some big idea or brand to develop and need help?</p>
             </div>
             <div class="grid lg:grid-cols-3 items-center gap-4 p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg mt-8">
                 <div class="bg-[#011c2b] rounded-lg p-6 max-lg:text-center">
                     <h2 class="text-xl font-bold text-white">Contact Information</h2>
-                    <p class="text-sm text-gray-400 mt-3">Have some big idea or brand to develop and need help?</p>
                     <ul class="mt-16 space-y-10">
                         <li class="flex items-center max-lg:justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill='#fff'

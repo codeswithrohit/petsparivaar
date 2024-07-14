@@ -1,21 +1,49 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { firebase } from "../Firebase/config";
+import "firebase/firestore";
 
-const About3 = () => {
-    return (
-        <section class="bg-white dark:bg-gray-900">
-    <div class="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
-        <div class="font-light text-gray-500 sm:text-lg dark:text-gray-400">
-            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">We didn't reinvent the wheel</h2>
-            <p class="mb-4">We are strategists, designers and developers. Innovators and problem solvers. Small enough to be simple and quick, but big enough to deliver the scope you want at the pace you need. Small enough to be simple and quick, but big enough to deliver the scope you want at the pace you need.</p>
-            <p>We are strategists, designers and developers. Innovators and problem solvers. Small enough to be simple and quick.</p>
+const About = () => {
+  const [aboutData, setAboutData] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const doc = await firebase.firestore().collection('about').doc('aboutUs').get();
+        if (doc.exists) {
+          setAboutData(doc.data().text);
+        } else {
+          console.log('No such document!');
+        }
+      } catch (error) {
+        console.error('Error fetching document: ', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center ">
+      {isLoading ? (
+        <div className='flex space-x-2 justify-center items-center h-screen'>
+          <span className='sr-only'>Loading...</span>
+          <div className='h-8 w-8 bg-black rounded-full animate-bounce [animation-delay:-0.3s]'></div>
+          <div className='h-8 w-8 bg-black rounded-full animate-bounce [animation-delay:-0.15s]'></div>
+          <div className='h-8 w-8 bg-black rounded-full animate-bounce'></div>
         </div>
-        <div class="grid grid-cols-2 gap-4 mt-8">
-            <img class="w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png" alt="office content 1"/>
-            <img class="mt-4 w-full lg:mt-10 rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png" alt="office content 2"/>
+      ) : (
+        <div className="bg-white shadow-md rounded-lg p-4 w-full ">
+          <h1 className="text-4xl font-serif font-extrabold mb-4 text-center text-gray-900">About Us</h1>
+          <div className="border-t border-gray-200 pt-4">
+            <p className="text-lg font-serif text-gray-700 leading-relaxed whitespace-pre-line">{aboutData}</p>
+          </div>
         </div>
+      )}
     </div>
-</section>
-    );
+  );
 };
 
-export default About3;
+export default About;

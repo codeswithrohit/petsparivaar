@@ -7,17 +7,16 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import Spinner from '../components/Spinner';
 import { useRouter } from 'next/router';
-
+import HomeCarousel from '../components/HomeCarousel';
 dayjs.extend(customParseFormat);
 const placesLibrary = ['places'];
 const { RangePicker } = DatePicker;
 
 const Test = () => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedPet, setSelectedPet] = useState('Dog');
   const [selectedTab, setSelectedTab] = useState('Boarding');
   const [selectedDates, setSelectedDates] = useState({});
-  const [nearestLocation, setNearestLocation] = useState('');
+  const [nearestLocation, setNearestLocation] = useState('10');
   const [Location, setLocation] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
 
@@ -45,23 +44,6 @@ const Test = () => {
     // Disable dates before today
     return current && current < dayjs().startOf('day');
   };
-
-  const imageList = [
-    { id: 1, imageUrl: "s1.png", link: "/", linkName: "Link 1" },
-    { id: 2, imageUrl: "s2.png", link: "/", linkName: "Link 2" },
-    { id: 3, imageUrl: "s3.png", link: "/", linkName: "Link 2" },
-    { id: 4, imageUrl: "s4.png", link: "/", linkName: "Link 2" },
-  ];
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentImageIndex((prevIndex) =>
-        prevIndex === imageList.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 4000); // Change the interval as needed
-
-    return () => clearInterval(intervalId);
-  }, [currentImageIndex]);
 
   const handlePetSelection = (event) => {
     setSelectedPet(event.target.value);
@@ -108,9 +90,6 @@ const Test = () => {
     const formattedDates = `${selectedDates.start},${selectedDates.end}`;
     router.push(`/petdetail?petType=${selectedPet}&serviceOption=${selectedTab}&Date=${formattedDates}&dogSize=${selectedSize}&location=${Location}&nearestLocation=${nearestLocation}`);
   };
-  
-  
-  
 
   if (!isLoaded) {
     return (
@@ -123,26 +102,7 @@ const Test = () => {
   return (
     <div className='mb-12' >
       <div class="">
-      <section  className="bg-cover bg-center md:mt-0 mt-8  flex justify-center items-center">
-  <div  className=" px-0">
-    {/* Left Column - Image Slider */}
-    <Link href={imageList[currentImageIndex].link} >
-      <div className="lg:pr-1 px-4  ">
-        <img src={imageList[currentImageIndex].imageUrl} className="h-full w-full object-cover rounded-xl" alt={`Slider Image ${currentImageIndex + 1}`} />
-      </div>
-    </Link>
-    <div className="flex justify-center -mt-8 lg:-mt-12">
-      {imageList.map((_, index) => (
-        <div
-          key={index}
-          className={`w-2 h-2 lg:w-4 lg:h-4 mx-1 rounded-full cursor-pointer ${index === currentImageIndex ? 'bg-red-600' : 'bg-gray-300'}`}
-          onClick={() => handleDotClick(index)}
-        />
-      ))}
-    </div>
-  </div>
-</section>
-
+<HomeCarousel/>
 <div className="flex md:mt-4 mt-12 justify-center items-center">
       <div className="bg-white dark:bg-slate-800 justify-center items-center rounded-md shadow-md p-5 lg:p-10 w-full lg:w-[100%] flex flex-col lg:flex-row lg:items-center space-y-5 lg:space-y-0 lg:space-x-5">
         <div className="w-full lg:flex-1">
@@ -167,19 +127,19 @@ const Test = () => {
             onChange={handleTabSelection}
           >
             <option value="" className="text-sm">Select a service</option>
-            <option value="Boarding" className="text-sm">{selectedPet === 'Dog' ? 'Dog Boarding' : 'Cat Boarding'}</option>
-            <option value="Sitting" className="text-sm">{selectedPet === 'Dog' ? 'Dog Sitting' : 'Cat Sitting'}</option>
-            <option value="Care" className="text-sm">{selectedPet === 'Dog' ? 'Dog Care' : 'Day Care'}</option>
+            <option value="Boarding" className="text-sm">{selectedPet === 'Dog' ? 'Pet Boarding' : 'Pet Boarding'}</option>
+            <option value="Sitting" className="text-sm">{selectedPet === 'Dog' ? 'Pet Sitting' : 'Pet Sitting'}</option>
+            <option value="Care" className="text-sm">{selectedPet === 'Dog' ? 'Pet Walking' : 'Pet Walking'}</option>
           </select>
         </div>
         <div className="w-full lg:flex-1">
           <label htmlFor="input-date-1" className="block text-sm text-gray-500 dark:text-slate-200 mb-1">Select Date</label>
           <RangePicker
-            defaultValue={[dayjs(), dayjs()]}
-            format="YYYY-MM-DD"
-            onChange={(dates) => handleDateChange(dates)}
-            placeholder={['Select start date', 'Select end date']}
-            disabledDate={disabledDate}
+              defaultValue={[dayjs(), dayjs()]}
+              format="YYYY-MM-DD"
+              onChange={(dates) => handleDateChange(dates)}
+              placeholder={['Select start date', 'Select end date']}
+              disabledDate={disabledDate}
           />
         </div>
         <div className="w-full lg:flex-1">
